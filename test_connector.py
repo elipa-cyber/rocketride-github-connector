@@ -68,3 +68,14 @@ def test_api_failure(mock_get, tmp_path):
 
     assert result["success"] is False
     assert "GitHub unavailable" in result["error"]
+
+def test_read_does_not_call_github(tmp_path):
+    db_path = str(tmp_path / "test.db")
+
+    with patch("connector.requests.get") as mock_get:
+        saved = read_issues("test/repo", db_path)
+
+    mock_get.assert_not_called()
+    assert saved["success"] is True
+    assert saved["repository"] == "test/repo"
+    assert saved["issues"] == []
