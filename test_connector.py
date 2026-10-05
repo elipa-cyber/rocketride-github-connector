@@ -79,3 +79,13 @@ def test_read_does_not_call_github(tmp_path):
     assert saved["success"] is True
     assert saved["repository"] == "test/repo"
     assert saved["issues"] == []
+
+@patch("connector.requests.get")
+def test_invalid_repository_format(mock_get, tmp_path):
+    db_path = str(tmp_path / "test.db")
+
+    result = import_issues("banana", db_path)
+
+    assert result["success"] is False
+    assert result["error"] == "Repository must be in owner/name format."
+    mock_get.assert_not_called()

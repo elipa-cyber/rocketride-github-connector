@@ -24,6 +24,15 @@ def create_database(db_path=DEFAULT_DB_PATH):
 
 def import_issues(repo, db_path=DEFAULT_DB_PATH):
     """Fetch open GitHub issues and save them to SQLite."""
+    parts = repo.split("/")
+
+    if len(parts) != 2 or not parts[0] or not parts[1]:
+        return {
+            "success": False,
+            "repository": repo,
+            "error": "Repository must be in owner/name format."
+        }
+
     url = f"https://api.github.com/repos/{repo}/issues"
 
     try:
