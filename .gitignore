@@ -1,0 +1,16 @@
+# Local databases
+*.db
+
+# Python generated files
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Virtual environments
+.venv/
+
+# macOS
+.DS_Store
+
+# Local backup
+connector_backup.py
